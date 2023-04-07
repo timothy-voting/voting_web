@@ -1,0 +1,25 @@
+import Navbar from "@/Layouts/Navbar";
+import Sidebar from "@/Layouts/Sidebar";
+import Footer from "@/Layouts/Footer";
+import {Head} from "@inertiajs/inertia-react";
+import {useState} from "react";
+
+
+export default function Main({title, children}) {
+  useState(title);
+  const [dataDate, setDataDate] = useState(getToday);
+
+  return (
+    <>
+      <Head title={title}/>
+      <div className="wrapper">
+        <Navbar info={{ date:dataDate, setDate:(date)=>{setDataDate(date)} }}/>
+        <Sidebar />
+        <div className="content-wrapper">
+          {children}
+        </div>
+        <Footer />
+      </div>
+    </>
+  );
+}
