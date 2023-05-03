@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Common;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,6 +25,5 @@ Route::group(['middleware'=>['auth', 'verified']], static function() {
     Route::get('/dashboard', static function () {
         return Inertia::render('Dashboard');
     });
-    require __DIR__.'/common.php';
 });
 require __DIR__.'/auth.php';

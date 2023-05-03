@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name')->unique();
+            $table->string('shortcut')->unique();
+            $table->foreignId('college')->references('id')->on('colleges');
         });
     }
 

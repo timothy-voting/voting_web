@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('student_id')->references('id')->on('students');
+            $table->foreignId('position')->references('id')->on('positions');
+            $table->integer('votes')->default(0);
+            $table->unique('student_id');
         });
     }
 

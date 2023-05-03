@@ -6,5 +6,9 @@ use App\Models\Common as Model;
 
 class Position extends Model
 {
-
+    protected $fillable = [
+        'name',
+        'affiliation'
+    ];
 }
+

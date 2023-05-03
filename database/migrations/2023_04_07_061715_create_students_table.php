@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->integer('student_no')->unique();
+            $table->string('name');
+            $table->foreignId('school')->references('id')->on('schools');
+            $table->foreignId('college')->references('id')->on('colleges');
+            $table->foreignId('hall')->references('id')->on('halls');
+            $table->boolean('done')->default(false);
         });
     }
 

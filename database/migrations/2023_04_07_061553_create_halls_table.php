@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('halls', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name')->unique();
+            $table->enum('gender', ['male', 'female']);
         });
     }
 

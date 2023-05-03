@@ -1,0 +1,34 @@
+<html lang="en-GB">
+<head>
+  <script type="text/javascript">
+    const local = '127.0.0.1';
+    // const nonLocal = '192.168.8.103';
+    const ws = new WebSocket('ws://'+local+':8080/echo');
+    ws.onclose = ()=>{
+      console.log('closed')
+    }
+
+    ws.onopen = function() {
+      document.querySelector('#send').disabled = false;
+
+      document.querySelector('#send').addEventListener('click', function() {
+        ws.send(document.querySelector('#message').value);
+      });
+    };
+
+    ws.onmessage = function(msg) {
+      console.log(msg.data)
+      document.querySelector('#messages').innerHTML += `<div>${msg.data.toString()}</div>`;
+    };
+  </script>
+  <title>Websocket Client</title>
+</head>
+<body>
+<h1>Chat</h1>
+<div>
+  <label for="message">Message: </label><input id="message" placeholder="Message">
+  <button id="send" disabled>Send</button>
+</div>
+<div id="messages"></div>
+</body>
+</html>
