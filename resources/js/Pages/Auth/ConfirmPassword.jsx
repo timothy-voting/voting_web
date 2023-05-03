@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/Auth/InputError';
 import InputLabel from '@/Components/Auth/InputLabel';
-// import PrimaryButton from '@/Components/PrimaryButton';
+import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/Auth/TextInput';
 import { Head, useForm } from '@inertiajs/inertia-react';
 
