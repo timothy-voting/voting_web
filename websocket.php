@@ -2,7 +2,7 @@
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 require __DIR__ . '/vendor/autoload.php';
-const address = '192.168.8.104';
+include __DIR__ . '/websocket_config.php';
 
 /**
  * Send any incoming messages to all connected clients (except sender)
