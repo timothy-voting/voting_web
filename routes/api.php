@@ -22,13 +22,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', [AuthenticatedSessionController::class, 'apiStore'])->name('login');
-Route::post('register', [RegisteredUserController::class, 'apiStore'])->name('register');
+Route::post('login', [AuthenticatedSessionController::class, 'apiStore'])->name('api.login');
+Route::post('register', [RegisteredUserController::class, 'apiStore'])->name('api.register');
 Route::get('getRules', function(){return VotingRule::all();});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', function (Request $request) { return $request->user();});
-    Route::post('logout', [AuthenticatedSessionController::class, 'apiDestroy'])->name('logout');
+    Route::post('logout', [AuthenticatedSessionController::class, 'apiDestroy'])->name('api.logout');
     Route::post('face', [FaceController::class, 'store'])->name('face');
     Route::get('positions', function (){return Position::all();});
     Route::get('student', [StudentController::class, 'show'])->name('student');
