@@ -22,7 +22,7 @@ class Chat implements MessageComponentInterface {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => '127.0.0.1:8000/api/votes',
+            CURLOPT_URL => webAddress.'/api/votes',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -99,7 +99,7 @@ class Chat implements MessageComponentInterface {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => '127.0.0.1:8000/api/votes',
+            CURLOPT_URL => webAddress.'/api/votes',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
