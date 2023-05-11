@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('path')->unique();
             $table->string('real_name')->nullable();
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->nullable()->references('id')->on('users');
             $table->timestamps();
         });
     }

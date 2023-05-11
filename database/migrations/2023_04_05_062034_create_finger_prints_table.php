@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('finger_prints', function (Blueprint $table) {
             $table->id();
+            $table->string('path')->unique();
+            $table->string('real_name')->nullable();
+            $table->foreignId('user_id')->nullable()->references('id')->on('users');
             $table->timestamps();
         });
     }

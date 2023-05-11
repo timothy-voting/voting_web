@@ -26,11 +26,11 @@ class FaceController extends Controller
      */
     public function store(Request $request)
     {
-        $path = $request->file('file')->store('images');
+        $path = $request->file('file')->store('faces');
         $face = Face::create([
             'real_name' => $request->has('real_name')?$request->input('real_name'):null,
             'path' => $path,
-            'user_id' => $request->user()->id
+            'user_id' => null
         ]);
         return Response($face);
     }

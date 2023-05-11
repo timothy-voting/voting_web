@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Face;
+use App\Models\FingerPrint;
+use App\Models\Student;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -10,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -56,10 +60,56 @@ class RegisteredUserController extends Controller
 
     public function apiStore(Request $request): \Illuminate\Http\Response
     {
-        $request->validate([
+        $rules = [
             'student_no' => 'required|integer|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+            'faces' => 'required',
+            'fingerprints' => 'required'
+        ];
+
+        $messages = [
+            'unique' => 'The :attribute :input has already been taken.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return Response($validator->errors(), 422);
+        }
+
+        $students = Student::where('student_no',$request->student_no)->get();
+        if(count($students) == 0){
+            $validator->errors()->add(
+                'student', 'Student number does not exist.'
+            );
+            return Response($validator->errors(), 422);
+        }
+
+        $faceIds = $request->input('faces');
+        $faces = [];
+        foreach ($faceIds as $faceId){
+            $face = Face::find($faceId);
+            if($face == null){
+                $validator->errors()->add(
+                    'face', 'Face does not exist.'
+                );
+                return Response($validator->errors(), 422);
+            }
+            $faces[] = $face;
+        }
+
+        $fingerprintIds = $request->input('fingerprints');
+        $fingerprints = [];
+        foreach ($fingerprintIds as $fingerprintId){
+            $fingerprint = Fingerprint::find($fingerprintId);
+            if($fingerprint == null){
+                $validator->errors()->add(
+                    'fingerprint', 'fingerprint does not exist.'
+                );
+                return Response($validator->errors(), 422);
+            }
+            $fingerprints[] = $fingerprint;
+        }
 
         $user = User::create([
             'name' => $request->student_no,
@@ -68,7 +118,17 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return Response(['registered' => (bool)$user]);
+        foreach ($faces as $face){
+            $face->user_id = $user->id;
+            $face->save();
+        }
+
+        foreach ($fingerprints as $fingerprint){
+            $fingerprint->user_id = $user->id;
+            $fingerprint->save();
+        }
+
+        return Response($user);
     }
 
     public function show(): \Illuminate\Http\Response
