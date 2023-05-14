@@ -61,7 +61,7 @@ class AuthenticatedSessionController extends Controller
             $storage_path = storage_path().'/app/';
             if ($request->has('finger_details')) {
                 $finger_details = explode(",", $request->finger_details);
-                $bioAuth = (intval($finger_details)>500);
+                $bioAuth = (intval($finger_details[1])>500);
             } elseif ($request->hasFile('face')) {
                 $path = $storage_path.$request->file('face')->store('temp_faces');
                 $face = Face::where('user_id', $user->id)->first();
