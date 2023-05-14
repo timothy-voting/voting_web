@@ -9,7 +9,6 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\VotingResultController;
 use App\Models\Position;
 use App\Models\Student;
-use App\Models\VotingRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +25,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthenticatedSessionController::class, 'apiStore'])->name('api.login');
 Route::post('register', [RegisteredUserController::class, 'apiStore'])->name('api.register');
-Route::get('getRules', function(){return VotingRule::all();});
 Route::post('face', [FaceController::class, 'store'])->name('face');
 Route::post('fingerprint', [FingerPrintController::class, 'store'])->name('fingerprint');
 Route::get('is_student', function (Request $request){
