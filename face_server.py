@@ -13,7 +13,7 @@ def img_compare_faces(known_face_location, unknown_face_location):
 s = socket.socket()
 print("Socket successfully created")
 
-port = 8003
+port = 8001
 
 s.bind(('127.0.0.1', port))
 print("socket binded to %s" % port)
