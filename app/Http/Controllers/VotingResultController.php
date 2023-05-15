@@ -17,7 +17,7 @@ class VotingResultController extends Controller
             return Response('Not Authorized!');
         }
         $candidates = DB::select("
-            select distinct ca.id as candidate_id, p.id as position_id, p.name as position, p.affiliation, s.id as student_id, s.name as student, h.id as hall_id, s.id as school_id, c.id as college_id, ca.votes as votes, c.name as college, sc.name as school, h.name as hall
+            select distinct ca.id as candidate_id, p.id as position_id, p.name as position, p.affiliation, s.id as student_id, s.name as student, h.id as hall_id, sc.id as school_id, c.id as college_id, ca.votes as votes, c.name as college, sc.name as school, h.name as hall
             from candidates ca inner join positions p on ca.position = p.id inner join students s on ca.student_id = s.id
             inner join colleges c on s.college = c.id inner join schools sc on s.school = sc.id
             inner join halls h on s.hall = h.id order by p.id, s.id;
