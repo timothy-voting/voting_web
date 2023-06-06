@@ -40,9 +40,9 @@ class VotingResultController extends Controller
         }
 
         $student = Student::where('student_no', '=', $request->user()->student_no)->take(1)->get()[0];
-//        if($student->done == 1){
-//            return Response('You finished voting!');
-//        }
+        if($student->done == 1){
+            return Response('You finished voting!');
+        }
 
         $voter_uuid = Str::uuid();
         $vote = Vote::create([
