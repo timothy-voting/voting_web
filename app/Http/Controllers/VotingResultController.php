@@ -27,7 +27,7 @@ class VotingResultController extends Controller
         $votes = [];
         foreach ($candidates as $candidate){
             $cands[$candidate->candidate_id] = $candidate;
-            $votes[$candidate->candidate_id] = [$candidate->votes];
+            $votes[$candidate->candidate_id] = $candidate->votes;
         }
         return Response(['candidates'=>$cands, 'votes'=>$votes]);
     }
