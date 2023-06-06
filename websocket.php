@@ -51,38 +51,42 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        $msg_arr = json_decode($msg, true);
+        try {
+            $msg_arr = json_decode($msg, true);
 
-        if(array_key_exists('token', $msg_arr)){
-            $token = $msg_arr['token'];
-            $message = $msg_arr['message'];
-            if($message == 'candidates'){
-                $from->send(json_encode(['candidates'=>$this->candidates, 'time'=>$this->time, 'request'=>'request']));
-                return;
-            }
+            if (array_key_exists('token', $msg_arr)) {
+                $token = $msg_arr['token'];
+                $message = $msg_arr['message'];
+                if ($message == 'candidates') {
+                    $from->send(json_encode(['candidates' => $this->candidates, 'time' => $this->time, 'request' => 'request']));
+                    return;
+                }
 
-            if($message == 'votes'){
-                $from->send(json_encode(['votes'=>$this->votes, 'time'=>$this->time, 'request'=>'request']));
-                return;
-            }
+                if ($message == 'votes') {
+                    $from->send(json_encode(['votes' => $this->votes, 'time' => $this->time, 'request' => 'request']));
+                    return;
+                }
 
-            $resp = $this->vote($message, $token);
-            $this->time = time();
-            $ids = json_decode($resp, true)['votes'];
-            $votes = [];
+                $resp = $this->vote($message, $token);
+                $this->time = time();
+                $ids = json_decode($resp, true)['votes'];
+                $votes = [];
 
-            foreach ($ids as $id){
-                $this->votes[$id] = ++$this->candidates[$id]['votes'];
-                $votes[$id] = $this->votes[$id];
-            }
-            $from->send($resp);
-            $vote_str = json_encode(['votes'=>$votes, 'time'=>$this->time, 'request'=>'live']);
+                foreach ($ids as $id) {
+                    $this->votes[$id] = ++$this->candidates[$id]['votes'];
+                    $votes[$id] = $this->votes[$id];
+                }
+                $from->send($resp);
+                $vote_str = json_encode(['votes' => $votes, 'time' => $this->time, 'request' => 'live']);
 
-            foreach ($this->clients as $client) {
+                foreach ($this->clients as $client) {
 //                if ($from != $client) {
                     $client->send($vote_str);
 //                }
+                }
             }
+        } catch (Exception $exception){
+            echo $exception->getMessage()."\n";
         }
     }
 
