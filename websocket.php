@@ -79,9 +79,9 @@ class Chat implements MessageComponentInterface {
             $vote_str = json_encode(['votes'=>$votes, 'time'=>$this->time, 'request'=>'live']);
 
             foreach ($this->clients as $client) {
-                if ($from != $client) {
+//                if ($from != $client) {
                     $client->send($vote_str);
-                }
+//                }
             }
         }
     }
