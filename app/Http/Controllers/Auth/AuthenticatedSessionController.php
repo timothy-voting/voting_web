@@ -67,18 +67,7 @@ class AuthenticatedSessionController extends Controller
                 $path = $storage_path.$request->file('face')->store('temp_faces');
                 $face = Face::where('user_id', $user->id)->first();
                 $face_path = $storage_path.$face->path;
-                $socket = null;
-                for($y=0; $y<5; $y++) {
-                    try {
-                        $socket = stream_socket_client('tcp://127.0.0.1:8001', $errno, $errstr, 30);
-                    } catch (\Exception $exception) {
-                        file_put_contents(base_path().'/dump.txt', phpinfo());
-                        exec('python '.base_path().'/face_server.py &');
-                        sleep(2);
-                        continue;
-                    }
-                    break;
-                }
+                $socket = stream_socket_client('tcp://127.0.0.1:8001', $errno, $errstr, 30);
                 if ($socket) {
                     stream_socket_sendto($socket, $face_path.",".$path);
                     $bioAuth = (stream_get_contents($socket)=='true');
