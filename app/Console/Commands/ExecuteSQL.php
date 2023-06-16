@@ -23,8 +23,9 @@ class ExecuteSQL extends Command
 
     public function handle()
     {
-        $contents = file_get_contents(base_path().'/dump.sql');
-        DB::unprepared($contents);
-        echo "sql executed successfully!\n";
+//        $contents = file_get_contents(base_path().'/dump.sql');
+//        DB::unprepared($contents);
+//        echo "sql executed successfully!\n";
+        echo 'python '.base_path().'/face_server.py &';
     }
 }
