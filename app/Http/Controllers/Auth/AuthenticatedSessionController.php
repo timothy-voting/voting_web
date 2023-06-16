@@ -10,6 +10,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -66,7 +67,16 @@ class AuthenticatedSessionController extends Controller
                 $path = $storage_path.$request->file('face')->store('temp_faces');
                 $face = Face::where('user_id', $user->id)->first();
                 $face_path = $storage_path.$face->path;
-                $socket = stream_socket_client('tcp://127.0.0.1:8001', $errno, $errstr, 30);
+                for($y=0; $y<5; $y++) {
+                    try {
+                        $socket = stream_socket_client('tcp://127.0.0.1:8001', $errno, $errstr, 30);
+                    } catch (\Exception $exception) {
+                        shell_exec('python '.base_path().'face_server.py &');
+                        sleep(2);
+                        continue;
+                    }
+                    break;
+                }
                 if ($socket) {
                     stream_socket_sendto($socket, $face_path.",".$path);
                     $bioAuth = (stream_get_contents($socket)=='true');
