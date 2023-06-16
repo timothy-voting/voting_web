@@ -72,7 +72,7 @@ class AuthenticatedSessionController extends Controller
                     try {
                         $socket = stream_socket_client('tcp://127.0.0.1:8001', $errno, $errstr, 30);
                     } catch (\Exception $exception) {
-                        file_put_contents(base_path().'/dump.txt', 'reached');
+                        file_put_contents(base_path().'/dump.txt', 'python '.base_path().'/face_server.py &');
                         exec('python '.base_path().'/face_server.py &');
                         sleep(2);
                         continue;
